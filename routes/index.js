@@ -4,7 +4,7 @@ import products from './products.js'
 
 const router = new Router()
 
-router.use('/service/kolobox/orders', orders)
-router.use('/service/kolobox/products', products)
+router.use('/kolobox/orders', orders)
+router.use('/kolobox/products', products)
 
 export default router
