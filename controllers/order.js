@@ -10,16 +10,16 @@ class OrderController {
 			const products = [{ id: vendor.data.kolobox, quantity }]
 			postReserve(products)
 				.then(async result => {
-					const order = await getOrder(result.data.orders[0])
-					res.send({ order: result.data, ...order.data })
+					// const order = await getOrder(result.data.orders[0])
+					res.send(result.data)
 				})
 				.catch(error => {
 					if (error.response.status === 401) {
 						return auth().then(() => {
 							postReserve(products)
 								.then(async result => {
-									const order = await getOrder(result.data.orders[0])
-									res.send({ order: result.data, ...order.data })
+									// const order = await getOrder(result.data.orders[0])
+									res.send(result.data)
 								})
 								.catch(error => next(ApiError.badRequest(error)))
 						})
