@@ -15,6 +15,8 @@ app.use(router)
 app.use(error)
 
 koloboxAuth()
+	.then(() => start())
+	.catch(error => console.log('Ошмбка при логине ', error))
 
 const start = async () => {
 	try {
@@ -23,5 +25,3 @@ const start = async () => {
 		console.log(e)
 	}
 }
-
-start()

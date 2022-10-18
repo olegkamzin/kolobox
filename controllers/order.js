@@ -1,5 +1,6 @@
 import { getOrder, postOrder, postReserve } from '../service/koloboxOrders.js'
 import ApiError from '../service/error/ApiError.js'
+import koloboxAuth from '../service/koloboxAuth.js'
 import axios from 'axios'
 
 class OrderController {
@@ -8,14 +9,14 @@ class OrderController {
 			const { id, quantity } = req.query
 			const vendor = await axios.get(process.env.API + 'vendor/' + '?id=' + id)
 			const products = [{ id: vendor.data.kolobox, quantity }]
-			postReserve(products)
+			await postReserve(products)
 				.then(async result => {
 					// const order = await getOrder(result.data.orders[0])
 					res.send(result.data)
 				})
 				.catch(error => {
 					if (error.response.status === 401) {
-						return auth().then(() => {
+						return koloboxAuth().then(() => {
 							postReserve(products)
 								.then(async result => {
 									// const order = await getOrder(result.data.orders[0])
@@ -36,14 +37,14 @@ class OrderController {
 			const { id, quantity, reserve_id } = req.query
 			const vendor = await axios.get(process.env.API + 'vendor/' + '?id=' + id)
 			const products = [{ id: vendor.data.kolobox, quantity }]
-			postOrder(reserve_id, products)
+			await postOrder(reserve_id, products)
 				.then(async result => {
 					const order = await getOrder(result.data.orders[0])
 					res.send({ order: result.data, ...order.data })
 				})
 				.catch(error => {
 					if (error.response.status === 401) {
-						return auth().then(() => {
+						return koloboxAuth().then(() => {
 							postOrder(reserve_id, products)
 								.then(async result => {
 									const order = await getOrder(result.data.orders[0])
@@ -67,7 +68,7 @@ class OrderController {
 				.then(result => res.send(result.data))
 				.catch(error => {
 					if (error.response.status === 401) {
-						return auth().then(() => {
+						return koloboxAuth().then(() => {
 							getOrder(id)
 								.then(result => res.send(result.data))
 								.catch(error => next(ApiError.badRequest(error)))
