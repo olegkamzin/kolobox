@@ -3,3 +3,8 @@
 .vscode/launch.json
 package-lock.json
 .DS_Store
+/.idea/.gitignore
+/.idea/kolobox.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
