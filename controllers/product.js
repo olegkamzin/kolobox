@@ -2,7 +2,6 @@ import ApiError from '../service/error/ApiError.js'
 import axios from 'axios'
 import { getTyres } from '../service/koloboxTyres.js'
 import auth from '../service/koloboxAuth.js'
-import LogError from '../service/error/LogError.js'
 
 class ProductController {
 	async get (req, res, next) {
@@ -22,7 +21,6 @@ class ProductController {
 					next(ApiError.badRequest(error))
 				})
 		} catch (e) {
-			LogError(e)
 			next(ApiError.badRequest(e))
 		}
 	}

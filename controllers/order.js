@@ -2,7 +2,6 @@ import { getOrder, postOrder, postReserve } from '../service/koloboxOrders.js'
 import ApiError from '../service/error/ApiError.js'
 import koloboxAuth from '../service/koloboxAuth.js'
 import axios from 'axios'
-import LogError from '../service/error/LogError.js'
 
 class OrderController {
 	async post (req, res, next) {
@@ -29,7 +28,6 @@ class OrderController {
 					next(ApiError.badRequest(error))
 				})
 		} catch (e) {
-			LogError(e)
 			next(ApiError.badRequest(e))
 		}
 	}
@@ -58,7 +56,6 @@ class OrderController {
 					next(ApiError.badRequest(error))
 				})
 		} catch (e) {
-			LogError(e)
 			next(ApiError.badRequest(e))
 		}
 	}
@@ -80,7 +77,6 @@ class OrderController {
 					next(ApiError.badRequest(error))
 				})
 		} catch (e) {
-			LogError(e)
 			next(ApiError.badRequest(e))
 		}
 	}
