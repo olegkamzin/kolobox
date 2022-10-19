@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const auth = async () => {
+const koloboxAuth = async () => {
 	const params = new URLSearchParams()
 	params.append('grant_type', 'password')
 	params.append('client_id', process.env.CLIENT_ID)
@@ -12,4 +12,4 @@ const auth = async () => {
 	}).catch(error => console.log(error))
 }
 
-export default auth
+export default koloboxAuth
