@@ -8,20 +8,26 @@ class ProductController {
 		try {
 			const { id } = req.query
 			const product = await axios.get('https://api.shinpi.ru/product/?id=' + id)
-			getTyres(product.data.brand.name, product.data.article)
-				.then(result => res.send(result.data[0]))
+			return await getTyres(product.data.brand.name, product.data.article)
+				.then(result => {
+					return res.send(result.data[0])
+				})
 				.catch(error => {
 					if (error.response.status === 401) {
-						return auth().then(() => {
-							getTyres(product.data.brand.name, product.data.article)
-								.then(result => res.send(result.data[0]))
-								.catch(error => next(ApiError.badRequest(error)))
+						return auth().then(async () => {
+							await getTyres(product.data.brand.name, product.data.article)
+								.then(result => {
+									return res.send(result.data[0])
+								})
+								.catch(error => {
+									return next(ApiError.badRequest(error))
+								})
 						})
 					}
 					next(ApiError.badRequest(error))
 				})
 		} catch (e) {
-			next(ApiError.badRequest(e))
+			return next(ApiError.badRequest(e))
 		}
 	}
 }

@@ -9,7 +9,7 @@ class OrderController {
 			const { id, quantity } = req.query
 			const vendor = await axios.get(process.env.API + 'vendor/' + '?id=' + id)
 			const products = [{ id: vendor.data.kolobox, quantity }]
-			await postReserve(products)
+			return await postReserve(products)
 				.then(async result => {
 					// const order = await getOrder(result.data.orders[0])
 					res.send(result.data)
@@ -28,7 +28,7 @@ class OrderController {
 					next(ApiError.badRequest(error))
 				})
 		} catch (e) {
-			next(ApiError.badRequest(e))
+			return next(ApiError.badRequest(e))
 		}
 	}
 
@@ -37,10 +37,10 @@ class OrderController {
 			const { id, quantity, reserve_id } = req.query
 			const vendor = await axios.get(process.env.API + 'vendor/' + '?id=' + id)
 			const products = [{ id: vendor.data.kolobox, quantity }]
-			await postOrder(reserve_id, products)
+			return await postOrder(reserve_id, products)
 				.then(async result => {
 					const order = await getOrder(result.data.orders[0])
-					res.send({ order: result.data, ...order.data })
+					return res.send({ order: result.data, ...order.data })
 				})
 				.catch(error => {
 					if (error.response.status === 401) {
@@ -48,15 +48,15 @@ class OrderController {
 							postOrder(reserve_id, products)
 								.then(async result => {
 									const order = await getOrder(result.data.orders[0])
-									res.send({ order: result.data, ...order.data })
+									return res.send({ order: result.data, ...order.data })
 								})
 								.catch(error => next(ApiError.badRequest(error)))
 						})
 					}
-					next(ApiError.badRequest(error))
+					return next(ApiError.badRequest(error))
 				})
 		} catch (e) {
-			next(ApiError.badRequest(e))
+			return next(ApiError.badRequest(e))
 		}
 	}
 
@@ -77,7 +77,7 @@ class OrderController {
 					next(ApiError.badRequest(error))
 				})
 		} catch (e) {
-			next(ApiError.badRequest(e))
+			return next(ApiError.badRequest(e))
 		}
 	}
 }

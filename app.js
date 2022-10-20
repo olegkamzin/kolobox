@@ -14,9 +14,13 @@ app.use(cors())
 app.use(router)
 app.use(error)
 
-koloboxAuth()
-	.then(() => start())
-	.catch(error => console.log('Ошибка при логине ', error))
+try {
+	koloboxAuth()
+		.then(() => start())
+		.catch(error => console.log('Ошибка при логине ', error))
+} catch (e) {
+	console.log(e)
+}
 const start = async () => {
 	try {
 		app.listen(PORT, () => console.log(`✅ Сервер запущен на порту ${PORT}`))
