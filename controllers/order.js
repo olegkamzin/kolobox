@@ -10,22 +10,16 @@ class OrderController {
 			const vendor = await axios.get(process.env.API + 'vendor/' + '?id=' + id)
 			const products = [{ id: vendor.data.kolobox, quantity }]
 			return await postReserve(products)
-				.then(async result => {
-					// const order = await getOrder(result.data.orders[0])
-					res.send(result.data)
-				})
-				.catch(error => {
+				.then(async result => res.send(result.data))
+				.catch(async error => {
 					if (error.response.status === 401) {
-						return koloboxAuth().then(() => {
-							postReserve(products)
-								.then(async result => {
-									// const order = await getOrder(result.data.orders[0])
-									res.send(result.data)
-								})
+						return await koloboxAuth().then(async () => {
+							return  await postReserve(products)
+								.then(async result => res.send(result.data))
 								.catch(error => next(ApiError.badRequest(error)))
 						})
 					}
-					next(ApiError.badRequest(error))
+					return next(ApiError.badRequest(error))
 				})
 		} catch (e) {
 			return next(ApiError.badRequest(e))
@@ -39,6 +33,7 @@ class OrderController {
 			const products = [{ id: vendor.data.kolobox, quantity }]
 			return await postOrder(reserve_id, products)
 				.then(async result => {
+					console.log()
 					const order = await getOrder(result.data.orders[0])
 					return res.send({ order: result.data, ...order.data })
 				})
