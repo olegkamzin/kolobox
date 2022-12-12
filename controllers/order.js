@@ -14,7 +14,7 @@ class OrderController {
 				.catch(async error => {
 					if (error.response.status === 401) {
 						return await koloboxAuth().then(async () => {
-							return  await postReserve(products)
+							return  await postOrder(products)
 								.then(async result => res.send(result.data))
 								.catch(error => next(ApiError.badRequest(error)))
 						})

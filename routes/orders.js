@@ -4,6 +4,6 @@ const router = new Router()
 
 router.post('/', OrderController.post)
 router.get('/', OrderController.get)
-router.put('/', OrderController.put)
+// router.put('/', OrderController.put)
 
 export default router
