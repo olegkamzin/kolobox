@@ -9,7 +9,10 @@ class ProductController {
 			const { id } = req.query
 			const product = await axios.get('https://api.shinpi.ru/product/' + id)
 			return await getTyres(product.data.brand.name, product.data.article)
-				.then(result => res.send(result.data[0]))
+				.then(result => {
+					if (result.data.length === 0) return next(ApiError.badRequest('Товар не найден'))
+					res.send(result.data[0])
+				})
 				.catch(async error => {
 					if (error.response.status === 401) {
 						return await auth().then(async () => {
