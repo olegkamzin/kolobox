@@ -7,13 +7,13 @@ class DiscountController {
 		try {
 			return getDiscount()
 				.then(res => {
-					return res.json(result)
+					return res.json(res.data)
 				})
 				.catch(err => {
 					if (err.response.status === 401) {
 						return koloboxAuth().then(() => {
 							return getDiscount()
-								.then(async result => res.send(result.data))
+								.then(result => res.send(result.data))
 								.catch(error => next(ApiError.badRequest(error)))
 						})
 					}
