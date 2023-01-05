@@ -1,18 +1,18 @@
 import ApiError from '../service/error/ApiError.js'
-import { koloboxDiscount } from '../service/koloboxDiscount.js'
+import { getDiscount } from '../service/koloboxDiscount.js'
 import koloboxAuth from '../service/koloboxAuth.js'
 
 class DiscountController {
 	async get (req, res, next) {
 		try {
-			return koloboxDiscount()
+			return getDiscount()
 				.then(res => {
 					return res.json(result)
 				})
 				.catch(err => {
 					if (err.response.status === 401) {
 						return koloboxAuth().then(() => {
-							return koloboxDiscount()
+							return getDiscount()
 								.then(async result => res.send(result.data))
 								.catch(error => next(ApiError.badRequest(error)))
 						})
