@@ -12,7 +12,7 @@ const postOrder = async (products) => {
 	params.append('address_id', 6580)
 	params.append('stock_type', 'local')
 	params.append('sale_type', 3)
-	params.append('order_type', 'reserve') // reserve / order
+	params.append('order_type', 'order') // reserve / order
 	params.append('delivery', 'shipment')
 	params.append('comment', 'Позвонить за 30 минут до доставки.')
 	params.append('stock_comment', 'Позвонить за 30 минут до доставки.')
